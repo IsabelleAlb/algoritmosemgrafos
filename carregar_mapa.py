@@ -1,4 +1,3 @@
-
 import geopandas as gpd
 from pathlib import Path
 
@@ -15,11 +14,11 @@ def carregar_mapa():
     geo_df['centroide'] = geo_df.geometry.centroid
     geo_df['x'] = geo_df.centroide.x.round(2)
     geo_df['y'] = geo_df.centroide.y.round(2)
-    geo_df = geo_df.head(30)
+    geo_df = geo_df
 
     return geo_df
 
 if __name__ == "__main__":
     df = carregar_mapa()
-    print(df[['EBAIRRNOME', 'x', 'y']].head())
+    print(df[['EBAIRRNOME', 'x', 'y']])
     print("Total de bairros:", len(df))

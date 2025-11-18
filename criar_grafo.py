@@ -19,11 +19,6 @@ def criar_nos(geo_df):
 
 
 def criar_arestas_k_vizinhos(G, k=3):
-    """
-    Recebe um grafo com nós já criados e adiciona arestas
-    conectando cada bairro aos k vizinhos mais próximos.
-    """
-
     # lista com todos os nós
     nos = list(G.nodes(data=True))
 
@@ -62,14 +57,17 @@ def criar_arestas_k_vizinhos(G, k=3):
 
 
 
-
-
 if __name__ == "__main__":
     df = carregar_mapa()
     G = criar_nos(df)
     G = criar_arestas_k_vizinhos(G, k=3)
-    pos = nx.spring_layout(G)
-    nx.draw(G, pos, with_labels=True, node_color='skyblue', node_size=500, font_size=10)
+    pos = {row['EBAIRRNOME']: (row['x'], row['y']) for _, row in df.iterrows()}
+    nx.draw(G, pos, with_labels=True, node_color='skyblue', node_size=90, font_size=10)
+    # Pegando os pesos originais (em metros)
+    pesos_m = nx.get_edge_attributes(G, "weight")
+    # Convertendo para km
+    edge_labels = {aresta: f"{(dist/1000):.2f} km" for aresta, dist in pesos_m.items()}
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=8)
     plt.show()
     print("Nós:", G.number_of_nodes())
     print("Arestas:", G.number_of_edges())
