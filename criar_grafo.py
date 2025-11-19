@@ -62,7 +62,8 @@ if __name__ == "__main__":
     G = criar_nos(df)
     G = criar_arestas_k_vizinhos(G, k=3)
     pos = {row['EBAIRRNOME']: (row['x'], row['y']) for _, row in df.iterrows()}
-    nx.draw(G, pos, with_labels=True, node_color='skyblue', node_size=90, font_size=10)
+
+    nx.draw(G, pos, with_labels=True, node_color='skyblue', node_size=50, font_size=6)
     # Pegando os pesos originais (em metros)
     pesos_m = nx.get_edge_attributes(G, "weight")
     # Convertendo para km
